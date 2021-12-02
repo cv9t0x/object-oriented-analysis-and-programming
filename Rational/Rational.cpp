@@ -199,7 +199,7 @@ Rational Rational::mySqrt()
 	double integral = floor(value);
 	double frac = value - integral;
 
-	const int pVal = 100;
+	const int pVal = 1000000;
 
 	int gcdVal = gcd(round(frac * pVal), pVal);
 

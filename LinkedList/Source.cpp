@@ -7,12 +7,16 @@ int main()
 {
 	LinkedList<int> list;
 
-	int arr[5]{ 1, 2, 3, 4, 5 };
+	list.fill(10, false);
 
-	for (int i = 0; i < 5; i++)
-	{
-		list.push_front(arr[i]);
-	}
+	cout << list;
+
+	
+	/*list.insert(777, 5);
+	cout << list;
+	list.remove(4);
+
+	
 
 	list.pop_back();
 	list.pop_front();
@@ -27,7 +31,7 @@ int main()
 
 	cout << "\n";
 	cout << list;
-	cout << "\n";
+	cout << "\n";*/
 
 	return 0;
 }

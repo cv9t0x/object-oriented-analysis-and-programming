@@ -18,7 +18,9 @@ public:
 	LinkedList();
 	~LinkedList();
 	
-	int GetSize();
+	int getSize();
+
+	void fill(const int size, const bool reversed = false);
 
 	void push_front(const T data);
 	void push_back(const T data);
@@ -38,6 +40,21 @@ public:
 	template<typename T> friend ostream& operator<<(ostream& out, const LinkedList<T>& list);
 };
 
+template <typename T>
+void LinkedList<T>::fill(const int size, const bool reversed)
+{
+	if (reversed)
+	{
+		for (size_t i = size; i > 0; i--)
+			push_back(i);
+	}
+	else
+	{
+		for (size_t i = 1; i <= size; i++)
+			push_back(i);
+	}
+}
+
 template <typename T> 
 LinkedList<T>::LinkedList()
 {
@@ -52,7 +69,7 @@ LinkedList<T>::~LinkedList()
 }
 
 template <typename T>
-int LinkedList<T>::GetSize()
+int LinkedList<T>::getSize()
 {
 	return size;
 }
@@ -98,7 +115,7 @@ void LinkedList<T>::push_back(const T data)
 template <typename T>
 void LinkedList<T>::remove(const int index)
 {	
-	if (index < 0 || index > size)
+	if (index < 0 || index >= size)
 	{
 		throw LinkedListException();
 	}
@@ -133,6 +150,10 @@ void LinkedList<T>::insert(const T data, const int index)
 	else if (index == 0)
 	{
 		push_front(data);
+	}
+	else if (index == size)
+	{
+		push_back(data);
 	}
 	else
 	{
@@ -221,7 +242,7 @@ ostream& operator<<(ostream& out, const LinkedList<T>& list)
 
 		while (count < list.size)
 		{
-			out << current->getData() << "\t";
+			out << current->getData() << "  ";
 
 			current = current->getNext();
 			count++;

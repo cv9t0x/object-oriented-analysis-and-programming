@@ -31,6 +31,8 @@ public:
 
 	void clear();
 
+	bool isEmpty();
+
 	T& operator[](const int index);
 
 	template<typename T> friend ostream& operator<<(ostream& out, const LinkedList<T>& list);
@@ -169,6 +171,11 @@ void LinkedList<T>::pop_back()
 	remove(size - 1);
 }
 
+template <typename T>
+bool LinkedList<T>::isEmpty()
+{
+	return size == 0 ? true : false;
+}
 
 template <typename T>
 T& LinkedList<T>::operator[](const int index)

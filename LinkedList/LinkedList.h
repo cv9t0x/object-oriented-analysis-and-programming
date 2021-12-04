@@ -10,8 +10,10 @@ class LinkedListException {};
 template <typename T> 
 class LinkedList
 {
+
 private:
 	int size;
+	bool circular;
 	Node<T>* head;
 
 public:
@@ -19,6 +21,7 @@ public:
 	~LinkedList();
 	
 	int getSize();
+	Node<T>* getHead();
 
 	void fill(const int size, const bool reversed = false);
 
@@ -26,7 +29,8 @@ public:
 	void push_back(const T data);
 
 	void insert(const T data, const int index);
-	void remove(const int index);
+	void removeById(const int index);
+	void remove(Node<T>* current);
 
 	void pop_front();
 	void pop_back();
@@ -34,32 +38,18 @@ public:
 	void clear();
 
 	bool isEmpty();
+	bool isCircular();
 
 	T& operator[](const int index);
 
 	template<typename T> friend ostream& operator<<(ostream& out, const LinkedList<T>& list);
 };
 
-template <typename T>
-void LinkedList<T>::fill(const int size, const bool reversed)
-{
-	if (reversed)
-	{
-		for (size_t i = size; i > 0; i--)
-			push_back(i);
-	}
-	else
-	{
-		for (size_t i = 1; i <= size; i++)
-			push_back(i);
-	}
-}
-
 template <typename T> 
 LinkedList<T>::LinkedList()
 {
-	head = nullptr;
-	size = 0;
+	this->head = nullptr;
+	this->size = 0;
 }
 
 template <typename T> 
@@ -69,9 +59,30 @@ LinkedList<T>::~LinkedList()
 }
 
 template <typename T>
+void LinkedList<T>::fill(const int size, const bool reversed)
+{
+	if (reversed)
+	{
+		for (int i = size; i > 0; i--)
+			push_back(i);
+	}
+	else
+	{
+		for (int i = 1; i <= size; i++)
+			push_back(i);
+	}
+}
+
+template <typename T>
 int LinkedList<T>::getSize()
 {
 	return size;
+}
+
+template <typename T>
+Node<T>* LinkedList<T>::getHead()
+{
+	return head;
 }
 
 template <typename T>
@@ -84,9 +95,7 @@ void LinkedList<T>::push_front(const T data)
 	else
 	{
 		Node<T>* previous = head;
-		head = new Node<T>(data);
-
-		head->next = previous;
+		head = new Node<T>(data, previous);
 	}
 
 	size++;
@@ -105,7 +114,7 @@ void LinkedList<T>::push_back(const T data)
 
 		while (current->next != nullptr)
 			current = current->next;
-
+			
 		current->next = new Node<T>(data);
 	}
 
@@ -113,7 +122,7 @@ void LinkedList<T>::push_back(const T data)
 }
 
 template <typename T>
-void LinkedList<T>::remove(const int index)
+void LinkedList<T>::removeById(const int index)
 {	
 	if (index < 0 || index >= size)
 	{
@@ -135,6 +144,34 @@ void LinkedList<T>::remove(const int index)
 		previous->next = temp->next;
 
 		delete temp;
+
+		size--;
+	}
+}
+
+template <typename T>
+void LinkedList<T>::remove(Node<T>* current)
+{
+	if (current == head)
+	{
+		pop_front();
+	}
+	else if (current->next == nullptr)
+	{
+		pop_back();
+	}
+	else
+	{
+		Node<T>* previous = head;
+
+		while (previous->next != current)
+		{
+			previous = previous->next;
+		}
+
+		previous->next = current->next;
+		
+		delete current;
 
 		size--;
 	}
@@ -189,13 +226,19 @@ void LinkedList<T>::pop_front()
 template <typename T>
 void LinkedList<T>::pop_back()
 {
-	remove(size - 1);
+	removeById(size - 1);
 }
 
 template <typename T>
 bool LinkedList<T>::isEmpty()
 {
 	return size == 0 ? true : false;
+}
+
+template <typename T>
+bool LinkedList<T>::isCircular()
+{
+	return circular == true ? true : false;
 }
 
 template <typename T>

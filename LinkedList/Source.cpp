@@ -54,12 +54,13 @@ int main()
 	cout << "--------------------------------------------\n";
 
 	cout << "\nYou should stand on the position: " <<  list;
-	
-	/*list.insert(777, 5);
+
+
+	/*LinkedList list;
+	list.fill(10);
+	list.insert(777, 5);
 	cout << list;
 	list.remove(4);
-
-	
 
 	list.pop_back();
 	list.pop_front();

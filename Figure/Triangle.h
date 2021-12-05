@@ -13,7 +13,8 @@ private:
 	double c;
 
 public:
-	Triangle(const double a = 0, const double b = 0, const double c = 0);
+	Triangle();
+	Triangle(const double a, const double b, const double c);
 
 	bool isExist(const double a, const double b, const double c);
 
@@ -21,6 +22,13 @@ public:
 	const double calc_perimeter() override;
 	const char* get_name() override;
 };
+
+Triangle::Triangle()
+{
+	this->a = 0;
+	this->b = 0;
+	this->c = 0;
+}
 
 Triangle::Triangle(const double a, const double b, const double c)
 {
@@ -43,7 +51,6 @@ const double Triangle::calc_area()
 	{
 		double pHalf = 0.5 * calc_perimeter();
 		area = sqrt(pHalf * (pHalf - a) * (pHalf - b) * (pHalf - c));
-		return area;
 	}
 
 	return area;
@@ -54,7 +61,6 @@ const double Triangle::calc_perimeter()
 	if (perimeter == 0)
 	{
 		perimeter = a + b + c;
-		return perimeter;
 	}
 
 	return perimeter;

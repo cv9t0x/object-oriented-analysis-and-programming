@@ -36,13 +36,13 @@ void FillWithCoordinates(ifstream& file, int** const arr, const int size)
 
 double CountFigureSquare(int** const arr, const int size) 
 {
-	int sum1 = arr[size - 1][1] + arr[0][1];
-	int sum2 = arr[size - 1][1] + arr[0][0];
+	int sum1 = arr[size - 1][0] * arr[0][1];
+	int sum2 = arr[size - 1][1] * arr[0][0];
 
 	for (int i = 0; i < size - 1; i++)
 	{
-		sum1 = sum1 + arr[i][0] + arr[i + 1][1];
-		sum2 = sum2 + arr[i][1] + arr[i + 1][0];
+		sum1 = sum1 + arr[i][0] * arr[i + 1][1];
+		sum2 = sum2 + arr[i][1] * arr[i + 1][0];
 	}
 
 	double result = (sum1 > sum2) ? (double)(sum1 - sum2) / 2 : (double)(sum2 - sum1) / 2;
@@ -59,7 +59,7 @@ int main()
 
 	try
 	{
-		file.open(path);
+		file.open(path.c_str());
 		cout << "---------------" << endl;
 		cout << "File is opened!" << endl;
 		cout << "---------------" << endl;
@@ -71,9 +71,7 @@ int main()
 		cout << "---------------" << endl;
 	}
 
-	
-
-	if (file.is_open())
+ 	if (file.is_open())
 	{
 		int vertexQuantity;
 

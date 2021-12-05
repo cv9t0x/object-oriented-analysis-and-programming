@@ -32,7 +32,6 @@ const double Circle::calc_area()
 	if (area == 0)
 	{
 		area = PI * r * r;
-		return area;
 	}
 	
 	return area;
@@ -43,7 +42,6 @@ const double Circle::calc_perimeter()
 	if (perimeter == 0)
 	{
 		perimeter = 2 * PI * r;
-		return perimeter;
 	}
 
 	return perimeter;

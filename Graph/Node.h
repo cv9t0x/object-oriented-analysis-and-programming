@@ -21,8 +21,8 @@ public:
 	Node(const string name);
 	~Node();
 
-	node_iterator nb_begin();
-	node_iterator nb_end();
+	node_iterator nb_begin() const;
+	node_iterator nb_end() const;
 	
 	const string& getName();
 	const set<Node*> getNeighbours();

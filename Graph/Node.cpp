@@ -3,6 +3,8 @@
 #include <string>
 #include <set>
 
+using namespace std;
+
 typedef set<Node*>::const_iterator node_iterator;
 
 Node::Node(string name)
@@ -15,12 +17,12 @@ Node::~Node()
 	neighbours.clear();
 }
 
-node_iterator Node::nb_begin()
+node_iterator Node::nb_begin() const
 {
 	return neighbours.begin();
 }
 
-node_iterator Node::nb_end()
+node_iterator Node::nb_end() const
 {
 	return neighbours.end();
 }

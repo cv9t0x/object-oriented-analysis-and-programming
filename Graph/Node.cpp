@@ -1,7 +1,7 @@
-#include "Node.h"
 #include <iostream>
 #include <string>
 #include <set>
+#include "Node.h"
 
 typedef set<Node*>::const_iterator node_iterator;
 

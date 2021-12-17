@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Graph.h"
 #include "Node.h"
+#include "BFS.h"
+#include "DFS.h"
 
 using namespace std;
 
@@ -15,12 +17,15 @@ int main()
 	graph.addNode(&node2);
 	graph.addNode(&node3);
 
-	graph.addEdge(&node1, &node2, 5);
-	graph.addEdge(&node1, &node3, 10);
-	graph.addEdge(&node3, &node2, 20);
-	graph.addEdge(&node2, &node3, 20);
+	graph.addEdge(&node1, &node3, 50);
 
 	cout << graph;
+
+	BFS bfs(graph);
+	DFS dfs(graph);
+
+	cout << "BFS: " << bfs.connected(&node1, &node2) << endl;
+	cout << "DFS: " << dfs.connected(&node1, &node2) << endl;
 
 	return 0;
 }

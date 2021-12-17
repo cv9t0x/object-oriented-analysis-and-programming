@@ -29,6 +29,8 @@ public:
 	void addEdge(Node* begin, Node* end, int weight);
 	void removeEdge(Node* begin, Node* end);
 
+	void operator=(const Graph& other);
+
 	friend ostream& operator<<(ostream& out, const Graph& graph);
 };
 

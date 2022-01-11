@@ -41,13 +41,11 @@ set<Edge*> Graph::getEdges()
 
 void Graph::addNode(Node* node)
 {
-    if (nodes.find(node) == nodes.end())
+    if (!hasNode(node))
     {
         nodes.insert(node);
         return;
     }
-
-    cout << "Node already exists" << endl;
 }
 
 void Graph::removeNode(Node* node)
@@ -63,24 +61,21 @@ void Graph::removeNode(Node* node)
 
         return;
     }
+}
 
-    cout << "Node doesn't exist" << endl;
+void Graph::addEdge(Edge* edge, int weight)
+{
+    if (edges.find(edge) != edges.end())
+    {
+        cout << "Edge already exist" << endl;
+        return;
+    }
+
+    addEdge(edge->getBegin(), edge->getEnd(), weight);
 }
 
 void Graph::addEdge(Node* begin, Node* end, int weight)
 {
-    if (nodes.find(begin) == nodes.end())
-    {
-        cout << "Begin node doesn't exist" << endl;
-        return;
-    }
-
-    if (nodes.find(end) == nodes.end())
-    {
-        cout << "End node doesn't exist" << endl;
-        return;
-    }
-
     for (edge_iterator it = edges.begin(); it != edges.end(); it++)
     {
         if ((*it)->getBegin() == begin && (*it)->getEnd() == end
@@ -94,30 +89,25 @@ void Graph::addEdge(Node* begin, Node* end, int weight)
     Edge* edge = new Edge(begin, end, weight);
     edges.insert(edge);
 
+    addNode(begin);
+    addNode(end);
+
     begin->addNeighbour(end);
     end->addNeighbour(begin);
 }
 
 void Graph::removeEdge(Node* begin, Node* end)
 {
-    if (nodes.find(begin) == this->end())
-    {
-        cout << "Begin node doesn't exist" << endl;
-        return;
-    }
-
-    if (nodes.find(end) == this->end())
-    {
-        cout << "End node doesn't exist" << endl;
-        return;
-    }
-
     for (edge_iterator it = edges.begin(); it != edges.end(); it++)
     {
         if ((*it)->getBegin() == begin && (*it)->getEnd() == end)
         {
             begin->removeNeighbour(end);
             end->removeNeighbour(begin);
+
+            removeNode(begin);
+            removeNode(end);
+
             edges.erase((*it));
             return;
         }
@@ -125,6 +115,45 @@ void Graph::removeEdge(Node* begin, Node* end)
 
     cout << "Edge doesn't exist" << endl;
 }
+
+bool Graph::hasNode(Node* node)
+{  
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == node->getName())
+            return true;
+    }
+
+    if (nodes.find(node) != nodes.end())
+        return true;
+
+    return false;
+}
+
+/*bool Graph::hasNodeByName(string name)
+{
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == name)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+Node* Graph::getNodeByName(string name)
+{
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == name)
+        {
+            return *it;
+        }
+    }
+
+    return nullptr;
+}*/
 
 void Graph::operator=(const Graph& other)
 {
@@ -144,7 +173,6 @@ void Graph::operator=(const Graph& other)
 
 ostream& operator<<(ostream& out, const Graph& graph)
 {
-    out << "---------------------" << endl;
     out << "NODES:" << endl;
     for (node_iterator it = graph.nodes.begin(); it != graph.nodes.end(); it++)
     {
@@ -157,7 +185,6 @@ ostream& operator<<(ostream& out, const Graph& graph)
         out << (*it)->getBegin()->getName() << "\t- " << (*it)->getWeight() << " -\t" << (*it)->getEnd()->getName();
         out << endl;
     }
-    out << "---------------------" << endl;
 
     return out;
 }

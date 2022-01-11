@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <istream>
+#include <string>
 #include <set>
 #include "Node.h"
 #include "Edge.h"
@@ -26,8 +27,13 @@ public:
 
 	void addNode(Node* node);
 	void removeNode(Node* node);
-	void addEdge(Node* begin, Node* end, int weight);
+
+	void addEdge(Edge* edge, int weight = 0);
+	void addEdge(Node* begin, Node* end, int weight = 0);
 	void removeEdge(Node* begin, Node* end);
+	bool hasNode(Node* node);
+	//bool hasNodeByName(string name);
+	//Node* getNodeByName(string name);
 
 	void operator=(const Graph& other);
 

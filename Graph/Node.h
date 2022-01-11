@@ -3,6 +3,7 @@
 
 #include <string>
 #include <set>
+#include <istream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
 	const set<Node*> getNeighbours();
 
 	friend class Graph;
+	friend ostream& operator <<(ostream& out, const Node& node);
 };
 
 #endif // !NODE_H

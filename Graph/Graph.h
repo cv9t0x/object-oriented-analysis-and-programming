@@ -19,11 +19,16 @@ public:
 	Graph();
 	~Graph();
 
+<<<<<<< HEAD
+	node_iterator begin();
+	node_iterator end();
+=======
 	node_iterator begin() const;
 	node_iterator end() const;
 
 	set<Node*> getNodes();
 	set<Edge*> getEdges();
+>>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
 
 	void addNode(Node* node);
 	void removeNode(Node* node);
@@ -35,7 +40,11 @@ public:
 	//bool hasNodeByName(string name);
 	//Node* getNodeByName(string name);
 
+<<<<<<< HEAD
+};
+=======
 	void operator=(const Graph& other);
+>>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
 
 	friend ostream& operator<<(ostream& out, const Graph& graph);
 };

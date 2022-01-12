@@ -14,10 +14,9 @@ Graph::Graph()
 
 Graph::~Graph()
 {
-    nodes.clear();
-    edges.clear();
+	nodes.clear();
+	edges.clear();
 }
-
 
 node_iterator Graph::begin() const
 {
@@ -65,13 +64,13 @@ void Graph::removeNode(Node* node)
 
 void Graph::addEdge(Edge* edge, int weight)
 {
-    if (edges.find(edge) != edges.end())
-    {
-        cout << "Edge already exist" << endl;
-        return;
-    }
+  if (edges.find(edge) != edges.end())
+	{
+		cout << "Edge already exists" << endl;
+    return;
+	}
 
-    addEdge(edge->getBegin(), edge->getEnd(), weight);
+  addEdge(edge->getBegin(), edge->getEnd(), weight);
 }
 
 void Graph::addEdge(Node* begin, Node* end, int weight)

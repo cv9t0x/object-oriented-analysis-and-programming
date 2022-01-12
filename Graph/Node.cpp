@@ -1,7 +1,7 @@
-#include "Node.h"
 #include <istream>
 #include <string>
 #include <set>
+#include "Node.h"
 
 using namespace std;
 

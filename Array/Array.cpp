@@ -1,7 +1,7 @@
-s #include "Array.h"
+#include "Array.h"
 #include <istream>
 
-	 Array::Array(int startCapacity)
+Array::Array(int startCapacity)
 {
 	capacity = startCapacity;
 	ptr = new int[capacity];
@@ -13,17 +13,17 @@ Array::~Array()
 	delete[] ptr;
 }
 
-Array::Array(const Array &arr)
+Array::Array(const Array& arr)
 {
 	ptr = new int[arr.capacity];
 	size = arr.size;
 	capacity = arr.capacity;
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < capacity; i++)
 		ptr[i] = arr.ptr[i];
 }
 
-Array &Array::operator=(const Array &arr)
+Array& Array::operator=(const Array& arr)
 {
 	if (this == &arr)
 		return *this;
@@ -42,7 +42,7 @@ Array &Array::operator=(const Array &arr)
 	return *this;
 }
 
-int &Array::operator[](int index)
+int& Array::operator[](int index)
 {
 	if (index >= size || index < 0)
 		throw ArrayException();
@@ -70,29 +70,42 @@ void Array::insert(int elem)
 	insert(elem, size);
 }
 
-void Array::insert(const Array &arr, int index)
+void Array::insert(const Array& arr, int index)
 {
-	if (index < 0 || index > size)
+	if (index > size || index < 0)
 		throw ArrayException();
+	
+	int totalSize = size + arr.size;
+	int* newPtr = new int[totalSize];
+	int ptrCounter = 0;
+	int arrCounter = 0;
+	bool flag = false;
 
-	int sumCapacities = size + arr.size;
+	for (int i = 0; i < totalSize; i++)
+	{
+		if (i == index || flag) {
+			newPtr[i] = arr.ptr[arrCounter++];
+			flag = true;
 
-	if (sumCapacities == capacity)
-		increaseCapacity(sumCapacities + 1);
+			if (i == arr.size + index - 1) {
+				flag = false;
+			}
+		}
+		else {
+			newPtr[i] = ptr[ptrCounter++];
+		}
+	}
 
-	for (int i = sumCapacities - 1; i >= index + arr.size; i--)
-		ptr[i] = ptr[i - arr.size];
+	delete[] ptr;
 
-	for (int i = arr.size - 1; i >= 0; i--)
-		ptr[index + i] = arr.ptr[i];
-
-	size += arr.size;
+	ptr = newPtr;
+	size = capacity = totalSize;
 }
 
 void Array::increaseCapacity(int newCapacity)
 {
 	capacity = newCapacity < capacity * 2 ? capacity * 2 : newCapacity;
-	int *newPtr = new int[capacity];
+	int* newPtr = new int[capacity];
 
 	for (int i = 0; i < size; i++)
 		newPtr[i] = ptr[i];
@@ -118,12 +131,18 @@ int Array::getSize() const
 	return size;
 }
 
-std::ostream &operator<<(std::ostream &out, const Array &arr)
+int Array::getCapacity() const
+{
+	return capacity;
+}
+
+std::ostream& operator<<(std::ostream& out, const Array& arr)
 {
 	out << "Total size: " << arr.size << std::endl;
 
 	for (int i = 0; i < arr.size; i++)
-		out << arr.ptr[i] << std::endl;
+		out << arr.ptr[i] << " ";
+	out << std::endl;
 
 	return out;
 }

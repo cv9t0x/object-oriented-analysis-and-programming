@@ -9,39 +9,37 @@ class ArrayException
 };
 class Array
 {
-    int *ptr;
-
+    int* ptr;
     int size, capacity;
 
-    Array(const Array &arr);
+    Array(const Array& arr);
 
-    Array &operator=(const Array &arr);
+    Array& operator=(const Array& arr);
 
     //int& operator [](int index);
 
-    bool isFail;
-
     void increaseCapacity(int newCapacity);
 
-    int getSize() const;
-    friend std::ostream &operator<<(std::ostream &out, const Array &arr);
+    friend std::ostream& operator<<(std::ostream& out, const Array& arr);
 
 public:
     ~Array();
 
     explicit Array(int startCapacity = DEFAULT_CAPACITY);
 
-    int &operator[](int index);
+    int& operator[](int index);
+
+    int getSize() const;
+
+    int getCapacity() const;
 
     void insert(int elem, int index);
 
     void insert(int elem);
 
-    void insert(const Array &arr, int index);
+    void insert(const Array& arr, int index);
 
     void remove(int index);
-
-    bool fail();
 };
 
 #endif

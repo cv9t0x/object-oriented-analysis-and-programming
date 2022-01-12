@@ -14,5 +14,19 @@ typedef set<Node*>::const_iterator node_iterator;
 
 int main()
 {
+	Graph graph;
+	Node* node1 = new Node("1");
+	Node* node2 = new Node("2");
+	Node* node3 = new Node("3");
+
+	graph.addEdge(node1, node2);
+	graph.addEdge(node1, node2);
+	graph.removeEdge(node1, node2);
+	graph.removeEdge(node1, node2);
+	graph.addEdge(node1, node2);
+	graph.addEdge(node1, node3);
+
+	cout << graph;
+
 	return 0;
 }

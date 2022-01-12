@@ -1,13 +1,9 @@
 #include <iostream>
 #include <set>
-<<<<<<< HEAD
-#include "Graph.h"
-=======
 #include <istream>
 #include "Graph.h"
 
 using namespace std;
->>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
 
 typedef set<Node*>::const_iterator node_iterator;
 typedef set<Edge*>::const_iterator edge_iterator;
@@ -18,25 +14,9 @@ Graph::Graph()
 
 Graph::~Graph()
 {
-<<<<<<< HEAD
 	nodes.clear();
 	edges.clear();
 }
-
-
-node_iterator Graph::begin()
-{
-	return nodes.begin();
-}
-
-node_iterator Graph::end()
-{
-	return nodes.end();
-=======
-    nodes.clear();
-    edges.clear();
-}
-
 
 node_iterator Graph::begin() const
 {
@@ -56,18 +36,15 @@ set<Node*> Graph::getNodes()
 set<Edge*> Graph::getEdges()
 {
     return edges;
->>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
 }
 
 void Graph::addNode(Node* node)
 {
-    if (nodes.find(node) == nodes.end())
+    if (!hasNode(node))
     {
         nodes.insert(node);
         return;
     }
-
-    cout << "Node already exists" << endl;
 }
 
 void Graph::removeNode(Node* node)
@@ -83,48 +60,21 @@ void Graph::removeNode(Node* node)
 
         return;
     }
+}
 
-    cout << "Node doesn't exist" << endl;
+void Graph::addEdge(Edge* edge, int weight)
+{
+  if (edges.find(edge) != edges.end())
+	{
+		cout << "Edge already exists" << endl;
+    return;
+	}
+
+  addEdge(edge->getBegin(), edge->getEnd(), weight);
 }
 
 void Graph::addEdge(Node* begin, Node* end, int weight)
 {
-<<<<<<< HEAD
-	if (nodes.find(begin) == nodes.end())
-	{
-		cout << "Begin node doesn't exist" << endl;
-		return;
-	}
-
-	if (nodes.find(end) == nodes.end())
-	{
-		cout << "End node doesn't exist" << endl;
-		return;
-	}
-
-	Edge* edge = new Edge(begin, end, weight);
-
-	if (edges.find(edge) != edges.end())
-	{
-		cout << "Edge already exists" << endl;
-	}
-
-	edges.insert(edge);
-	begin->addNeighbour(end);
-	end->addNeighbour(begin);
-=======
-    if (nodes.find(begin) == nodes.end())
-    {
-        cout << "Begin node doesn't exist" << endl;
-        return;
-    }
-
-    if (nodes.find(end) == nodes.end())
-    {
-        cout << "End node doesn't exist" << endl;
-        return;
-    }
-
     for (edge_iterator it = edges.begin(); it != edges.end(); it++)
     {
         if ((*it)->getBegin() == begin && (*it)->getEnd() == end
@@ -138,45 +88,25 @@ void Graph::addEdge(Node* begin, Node* end, int weight)
     Edge* edge = new Edge(begin, end, weight);
     edges.insert(edge);
 
+    addNode(begin);
+    addNode(end);
+
     begin->addNeighbour(end);
     end->addNeighbour(begin);
->>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
 }
 
 void Graph::removeEdge(Node* begin, Node* end)
 {
-<<<<<<< HEAD
-	if (nodes.find(begin) == nodes.end())
-	{
-		cout << "Begin node doesn't exist" << endl;
-		return;
-	}
-
-	if (nodes.find(end) == nodes.end())
-	{
-		cout << "End node doesn't exist" << endl;
-		return;
-	}
-=======
-    if (nodes.find(begin) == this->end())
-    {
-        cout << "Begin node doesn't exist" << endl;
-        return;
-    }
->>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023
-
-    if (nodes.find(end) == this->end())
-    {
-        cout << "End node doesn't exist" << endl;
-        return;
-    }
-
     for (edge_iterator it = edges.begin(); it != edges.end(); it++)
     {
         if ((*it)->getBegin() == begin && (*it)->getEnd() == end)
         {
             begin->removeNeighbour(end);
             end->removeNeighbour(begin);
+
+            removeNode(begin);
+            removeNode(end);
+
             edges.erase((*it));
             return;
         }
@@ -184,8 +114,45 @@ void Graph::removeEdge(Node* begin, Node* end)
 
     cout << "Edge doesn't exist" << endl;
 }
-<<<<<<< HEAD
-=======
+
+bool Graph::hasNode(Node* node)
+{  
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == node->getName())
+            return true;
+    }
+
+    if (nodes.find(node) != nodes.end())
+        return true;
+
+    return false;
+}
+
+/*bool Graph::hasNodeByName(string name)
+{
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == name)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+Node* Graph::getNodeByName(string name)
+{
+    for (node_iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((*it)->getName() == name)
+        {
+            return *it;
+        }
+    }
+
+    return nullptr;
+}*/
 
 void Graph::operator=(const Graph& other)
 {
@@ -205,7 +172,6 @@ void Graph::operator=(const Graph& other)
 
 ostream& operator<<(ostream& out, const Graph& graph)
 {
-    out << "---------------------" << endl;
     out << "NODES:" << endl;
     for (node_iterator it = graph.nodes.begin(); it != graph.nodes.end(); it++)
     {
@@ -218,8 +184,6 @@ ostream& operator<<(ostream& out, const Graph& graph)
         out << (*it)->getBegin()->getName() << "\t- " << (*it)->getWeight() << " -\t" << (*it)->getEnd()->getName();
         out << endl;
     }
-    out << "---------------------" << endl;
 
     return out;
 }
->>>>>>> eeedb0b4710fb8226d58518ef8f6becc0d051023

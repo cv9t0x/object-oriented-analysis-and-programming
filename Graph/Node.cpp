@@ -1,4 +1,4 @@
-#include <iostream>
+#include <istream>
 #include <string>
 #include <set>
 #include "Node.h"
@@ -44,8 +44,6 @@ void Node::addNeighbour(Node* neighbour)
 		neighbours.insert(neighbour);
 		return;
 	}
-
-	cout << "Neighbour already exists" << endl;
 }
 
 void Node::removeNeighbour(Node* neighbour)
@@ -55,6 +53,15 @@ void Node::removeNeighbour(Node* neighbour)
 		neighbours.erase(neighbour);
 		return;
 	}
+}
 
-	cout << "Neighbour doesn't exist" << endl;
+ostream& operator<<(ostream& out, const Node& node)
+{
+	for (node_iterator it = node.nb_begin(); it != node.nb_end(); it++)
+	{
+		out << (*it)->getName() << " ";
+	}
+	out << endl;
+
+	return out;
 }

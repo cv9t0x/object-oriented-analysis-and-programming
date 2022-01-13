@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include <string>
-#include <set>
+#include <vector>
 #include <istream>
 
 using namespace std;
@@ -11,13 +11,13 @@ class Node
 {
 private:
 	string name;
-	set<Node*> neighbours;
+	vector<Node*> neighbours;
 
-	void addNeighbour(Node* neighbour);
-	void removeNeighbour(Node* neighbour);
+	void addNeighbour(Node* node);
+	void removeNeighbour(Node* node);
 
 public:
-	typedef set<Node*>::const_iterator node_iterator;
+	typedef vector<Node*>::const_iterator node_iterator;
 
 	Node(const string name);
 	~Node();
@@ -26,7 +26,7 @@ public:
 	node_iterator nb_end() const;
 	
 	const string& getName();
-	const set<Node*> getNeighbours();
+	const vector<Node*> getNeighbours();
 
 	friend class Graph;
 	friend ostream& operator <<(ostream& out, const Node& node);

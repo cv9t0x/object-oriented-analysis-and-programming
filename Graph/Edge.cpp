@@ -1,4 +1,5 @@
 #include "Edge.h"
+#include "Graph.h"
 
 Edge::Edge(Node* begin, Node* end, const int weight)
 {

@@ -1,11 +1,11 @@
 #include <istream>
 #include <string>
-#include <set>
+#include <vector>
 #include "Node.h"
 
 using namespace std;
 
-typedef set<Node*>::const_iterator node_iterator;
+typedef vector<Node*>::const_iterator node_iterator;
 
 Node::Node(string name)
 {
@@ -32,36 +32,47 @@ const string& Node::getName()
 	return name;
 }
 
-const set<Node*> Node::getNeighbours()
+const vector<Node*> Node::getNeighbours()
 {
 	return neighbours;
 }
 
-void Node::addNeighbour(Node* neighbour)
+void Node::addNeighbour(Node* node)
 {
-	if (neighbours.find(neighbour) == neighbours.end())
+	for(Node * neighbour : neighbours)
 	{
-		neighbours.insert(neighbour);
-		return;
+		if (neighbour == node)
+			return;
 	}
+
+	neighbours.push_back(node);
 }
 
-void Node::removeNeighbour(Node* neighbour)
+void Node::removeNeighbour(Node* node)
 {
-	if (neighbours.find(neighbour) != neighbours.end())
+	for (node_iterator it = nb_begin(); it != nb_end(); it++)
 	{
-		neighbours.erase(neighbour);
-		return;
+		if ((*it) == node)
+		{
+			neighbours.erase(it);
+			return;
+		}
 	}
 }
 
 ostream& operator<<(ostream& out, const Node& node)
 {
-	for (node_iterator it = node.nb_begin(); it != node.nb_end(); it++)
+	out << "--------------\n";
+	out << "Name: " << node.name << endl;
+	out << "Neighbours: ";
+
+	for (Node* neighbour : node.neighbours)
 	{
-		out << (*it)->getName() << " ";
+		out << neighbour->getName() << " ";
 	}
+
 	out << endl;
+	out << "--------------\n";
 
 	return out;
 }

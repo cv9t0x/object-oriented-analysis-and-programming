@@ -3,39 +3,42 @@
 
 #include <istream>
 #include <string>
-#include <set>
+#include <vector>
 #include "Node.h"
 #include "Edge.h"
 
-typedef set<Node*>::const_iterator node_iterator;
+typedef vector<Node*>::const_iterator node_iterator;
+typedef vector<Edge*>::const_iterator edge_iterator;
 
 class Graph
 {
 private:
-	set<Node*> nodes;
-	set<Edge*> edges;
+	vector<Node*> nodes;
+	vector<Edge*> edges;
+
+	
 
 public:
 	Graph();
 	~Graph();
 
-	node_iterator begin() const;
-	node_iterator end() const;
+	node_iterator nd_begin() const;
+	node_iterator nd_end() const;
 
-	set<Node*> getNodes();
-	set<Edge*> getEdges();
+	edge_iterator eg_begin() const;
+	edge_iterator eg_end() const;
 
-	void addNode(Node* node);
+	void addNode(Node* newNode, bool flag = false);
 	void removeNode(Node* node);
-
-	void addEdge(Edge* edge, int weight = 0);
-	void addEdge(Node* begin, Node* end, int weight = 0);
-	void removeEdge(Node* begin, Node* end);
 	bool hasNode(Node* node);
-	//bool hasNodeByName(string name);
-	//Node* getNodeByName(string name);
 
-	void operator=(const Graph& other);
+	void addEdge(Node* begin, Node* end, int weight = 0);
+	void addEdge(Edge* newEdge, int weight = 0);
+	void addEdge(string begin, string end, int weight = 0);
+	void removeEdge(Node* begin, Node* end);
+	
+	vector<Node*> getNodes();
+	vector<Edge*> getEdges();
 
 	friend ostream& operator<<(ostream& out, const Graph& graph);
 };

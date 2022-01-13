@@ -1,6 +1,6 @@
 #include "DFS.h"
 
-typedef set<Node*>::const_iterator node_iterator;
+typedef vector<Node*>::const_iterator node_iterator;
 
 DFS::DFS(const Graph& graph)
 {

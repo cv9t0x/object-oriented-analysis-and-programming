@@ -4,7 +4,7 @@
 
 using namespace std;
 
-typedef set<Node*>::const_iterator node_iterator;
+typedef vector<Node*>::const_iterator node_iterator;
 
 BFS::BFS(const Graph& graph)
 {

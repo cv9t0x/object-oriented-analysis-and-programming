@@ -95,7 +95,7 @@ void writeGraphs(vector<Graph*> graphs)
 
 int main()
 {
-	string path = "TestGraph.txt";
+	string path = "TestGraphSmall.txt";
 
 	ifstream file;
 

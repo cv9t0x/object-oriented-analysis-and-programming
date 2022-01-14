@@ -21,22 +21,19 @@ bool inVector(vector<Node*> nodes, Node* node)
 	return false;
 }
 
-void setGraph(vector<Node*>& visited, Graph& graph, Node* current, Node* prev = nullptr)
+void setGraph(vector<Node*>& visited, Graph& graph, Node* current)
 {	
-	if (prev != nullptr)
-	{
-		graph.addEdge(prev, current);
-	}
-
 	visited.push_back(current);
 
 	for (Node* neighbour : current->getNeighbours())
 	{
+		graph.addEdge(current, neighbour);
+
+
 		if (inVector(visited, neighbour))
 			continue;
 
-		prev = current;
-		setGraph(visited, graph, neighbour, prev);
+		setGraph(visited, graph, neighbour);
 	}
 }
 
@@ -44,6 +41,7 @@ vector<Graph*> getGraphs(Graph* mainGraph)
 {
 	vector<Graph*> graphs;
 	vector<Node*> visited;
+	node_iterator beginIt = mainGraph->nd_begin();
 
 	while (visited.size() != mainGraph->getNodes().size())
 	{
@@ -51,9 +49,21 @@ vector<Graph*> getGraphs(Graph* mainGraph)
 		Node* begin = nullptr;
 
 		if (visited.size() == 0)
+		{
 			begin = *mainGraph->nd_begin();
+		}
 		else
-			begin = mainGraph->getNodes()[visited.size() - 1];
+		{
+			for (node_iterator it = beginIt; it != mainGraph->nd_end(); it++)
+			{
+				if (!inVector(visited, *it))
+				{
+					beginIt = it;
+					begin = *it;
+					break;
+				}
+			}
+		}
 
 		setGraph(visited, *graph, begin);
 
@@ -73,6 +83,7 @@ void writeGraphs(vector<Graph*> graphs)
 		if (fout.is_open())
 		{
 			fout << *graphs[i];
+			fout.close();
 			cout << "Graph " << i + 1 << " was successful written" << endl;
 		}
 		else
@@ -84,7 +95,7 @@ void writeGraphs(vector<Graph*> graphs)
 
 int main()
 {
-	string path = "TestGraphSmall.txt";
+	string path = "TestGraph.txt";
 
 	ifstream file;
 

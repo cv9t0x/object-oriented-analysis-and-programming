@@ -1,11 +1,11 @@
-#include <iostream>
-#include <fstream>
-#include <utility>
 #include "Board.h"
 
 Board::Board(string path)
 {
 	readFile(path);
+	vector<Move>* pResult = calcWhiteMoves();
+
+	delete pResult;
 }
 
 Board::~Board()
@@ -49,32 +49,33 @@ void Board::readFile(string path)
 				isWhite = true;
 				tie(x, y, isCrown) = convertPos(s);
 
-				checkers.insert({ new Cell(s, x, y), new Checker(isWhite, isCrown) });
+				Checker* checker = new Checker(x, y, isWhite, isCrown);
+				checkers.insert({ checker->pos , checker });
 
 				nWhite--;
 
 				continue;
 			}
-			else if (nBlack)
+
+			if (nBlack)
 			{
 				isWhite = false;
 				tie(x, y, isCrown) = convertPos(s);
 
-				checkers.insert({ new Cell(s, x, y), new Checker(isWhite, isCrown) });
+				Checker* checker = new Checker(x, y, isWhite, isCrown);
+				checkers.insert({ checker->pos , checker });
 
 				nBlack--;
 
 				continue;
 			}
-			else 
-			{
-				break;
-			}
+
+			break;
+
 		}
-	}
-	else 
-	{
-		throw new BoardException();
+
+		if (nWhite || nBlack)
+			throw new BoardException();
 	}
 }
 
@@ -106,29 +107,53 @@ int Board::convertSym(char sym)
 	int code = (int)sym;
 
 	if (code > 48 && code < 57)
-	{
 		return code - 49;
-	}
-	else if (code > 64 && code < 73)
-	{
+
+	if (code > 64 && code < 73)
 		return code - 65;
-	}
-	else if (code == 77)
-	{
+
+	if (code == 77)
 		return -1;
-	}
-	else
+
+	throw new BoardException();
+}
+
+bool Board::hasCell(Cell cell)
+{
+	return checkers.find(cell) != checkers.end() ? true : false;
+}
+
+Checker* Board::getCell(Cell cell)
+{
+	for (auto& item : checkers)
 	{
-		throw new BoardException();
+		if (item.first == cell)
+			return item.second;
 	}
+
+	return nullptr;
+}
+
+vector<Move>* Board::calcWhiteMoves()
+{
+	vector<Move>* moves = new vector<Move>();
+
+	for (auto& item : checkers)
+	{
+		if (item.second->isWhite)
+		{
+			for (Move move : *(item.second->getMovesArray(*this)))
+				moves->push_back(move);
+		}
+	}
+
+	return moves;
 }
 
 ostream& operator<<(ostream& out, Board& board)
 {
-	for (auto item : board.checkers)
-	{
-		out << item.first->pos << " " << *item.second;
-	}
+	for (auto& item : board.checkers)
+		out << "X: " << item.first.x << " " << "Y: " <<item.first.y << " " << *item.second;
 
 	return out;
 }

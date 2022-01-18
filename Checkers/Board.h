@@ -1,19 +1,18 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <fstream>
+#include <string>
 #include <map>
 #include <tuple>
+#include <vector>
 #include "Checker.h"
 
 using namespace std;
 
-struct Cell {
-	string pos;
-	int x, y;
-
-	Cell(string pos, int x, int y) { this->pos = pos; this->x = x; this->y = y; };
-	~Cell() {};
-};
+class Checker;
+struct Cell;
+struct Move;
 
 class BoardException
 {
@@ -22,7 +21,7 @@ class BoardException
 class Board
 {
 private:
-	map<Cell*, Checker*> checkers;
+	map<Cell, Checker*> checkers;
 
 	void readFile(string path);
 
@@ -32,6 +31,10 @@ private:
 public:
 	Board(string path);
 	~Board();
+
+	bool hasCell(Cell cell);
+	Checker* getCell(Cell cell);
+	vector<Move>* calcWhiteMoves();
 
 	friend ostream& operator<<(ostream& out, Board& board);
 };

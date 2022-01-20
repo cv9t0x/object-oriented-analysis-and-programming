@@ -1,5 +1,4 @@
 #include "MyLong.h"
-#include <iostream>
 
 MyLong::MyLong()
 {
@@ -22,7 +21,7 @@ MyLong::MyLong(const MyLong& other)
 {
 	clear();
 
-	for(int digit : other.digits)
+	for(auto digit : other.digits)
 		digits.push_back(digit);
 }
 
@@ -40,7 +39,7 @@ void MyLong::operator=(const MyLong& other)
 {
 	clear();
 
-	for (int digit : other.digits)
+	for (auto digit : other.digits)
 		digits.push_back(digit);
 }
 
@@ -49,7 +48,7 @@ bool MyLong::operator==(const MyLong& other)
 	if (digits.size() > other.digits.size() || digits.size() < other.digits.size())
 		return false;
 
-	for (size_t i = 0; i < digits.size(); i++)
+	for (int i = 0; i < digits.size(); i++)
 	{
 		if (digits[i] != other.digits[i])
 			return false;
@@ -198,9 +197,6 @@ MyLong& MyLong::operator/=(int num)
 		if (i) {
 			digits[i - 1] += (digits[i] % num) * BASE;
 		}
-			
-		if (digits[i] < 10 && !i)
-			break;
 
 		digits[i] /= num;
 	}
@@ -212,12 +208,6 @@ MyLong MyLong::operator/(int num)
 {
 	MyLong result(*this);
 	result /= num;
-	return result;
-}
-
-MyLong MyLong::sqrt()
-{
-	MyLong result;
 	return result;
 }
 

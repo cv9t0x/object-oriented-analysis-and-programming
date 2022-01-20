@@ -5,11 +5,21 @@ using namespace std;
 
 int main()
 {
-	MyLong num1(9223372036854775807);
-	MyLong num2(num1);
-	MyLong num3 = num2 * num1;
-	
-	cout << num3;
+	MyLong num1(92233720368547758);
+	MyLong num2(92233720368547758);
+	MyLong result;
+
+	result = num1 + num2;
+	cout << "Sum: " << result;
+
+	result = num1 - num2;
+	cout << "Sub: " << result;
+
+	result = num1 * num2;
+	cout << "Mul: " << result;
+
+	result /= 2;
+	cout << "Div by short: " << result;
 
 	return 0;
 }

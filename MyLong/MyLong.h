@@ -48,8 +48,6 @@ public:
 	MyLong& operator/=(int num);
 	MyLong operator/(int num);
 
-	MyLong sqrt();
-
 	friend ostream& operator<<(ostream& out, MyLong& num);
 };
 

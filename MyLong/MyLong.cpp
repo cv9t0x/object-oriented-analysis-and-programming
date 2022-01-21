@@ -58,14 +58,35 @@ bool MyLong::operator==(const MyLong& other)
 	return true;
 }
 
+bool MyLong::operator<(const MyLong& other)
+{
+	if (other.digits.size() > digits.size())
+		return true;
+	else if (digits.size() > other.digits.size())
+		return false;
+	else 
+	{
+		for (int i= digits.size() - 1; i >= 0; i--)
+		{
+			int t_digit = digits[i];
+			int o_digit = other.digits[i];
+
+			if (t_digit < o_digit)
+				return true;
+		}
+
+		return false;
+	}
+}
+
 MyLong& MyLong::operator+=(const MyLong& other)
 {
-	size_t size = other.digits.size() > digits.size() ? digits.size() : other.digits.size();
+	int size = other.digits.size() > digits.size() ? digits.size() : other.digits.size();
 
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		digits[i] += other.digits[i];
 
-	for (size_t i = 0; i < digits.size() - 1; i++)
+	for (int i = 0; i < digits.size() - 1; i++)
 	{
 		if (digits[i] >= BASE)
 		{
@@ -99,12 +120,12 @@ MyLong& MyLong::operator++()
 
 MyLong& MyLong::operator-=(const MyLong& other)
 {
-	size_t size = other.digits.size() > digits.size() ? digits.size() : other.digits.size();
+	int size = other.digits.size() > digits.size() ? digits.size() : other.digits.size();
 
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		digits[i] -= other.digits[i];
 
-	for (size_t i = 0; i < digits.size() - 1; i++)
+	for (int i = 0; i < digits.size() - 1; i++)
 	{
 		if (digits[i] < 0)
 		{
@@ -142,15 +163,15 @@ MyLong& MyLong::operator*=(const MyLong& other)
 
 	result.digits.resize(digits.size() + other.digits.size());
 
-	for (size_t i = 0; i < digits.size(); i++)
+	for (int i = 0; i < digits.size(); i++)
 	{
-		for (size_t j = 0; j < other.digits.size(); j++)
+		for (int j = 0; j < other.digits.size(); j++)
 		{
 			result.digits[i + j] += digits[i] * other.digits[j];
 		}
 	}
 
-	for (size_t i = 0; i < result.digits.size() - 1; i++)
+	for (int i = 0; i < result.digits.size() - 1; i++)
 	{
 		result.digits[i + 1] += result.digits[i] / BASE;
 		result.digits[i] %= BASE;
@@ -168,19 +189,51 @@ MyLong MyLong::operator*(const MyLong& other)
 	return result;
 }
 
+MyLong& MyLong::operator/=(int num)
+{
+	if (num == 0)
+		throw new MyLongException();
+	
+	for (int i = digits.size() - 1; i >= 0; i--) {
+		if (i) {
+			digits[i - 1] += (digits[i] % num) * BASE;
+		}
+			
+		if (digits[i] < 10 && !i)
+			break;
+
+		digits[i] /= num;
+	}
+
+	return *this;
+}
+
+MyLong MyLong::operator/(int num)
+{
+	MyLong result(*this);
+	result /= num;
+	return result;
+}
+
+MyLong MyLong::sqrt()
+{
+	MyLong result;
+	return result;
+}
+
 ostream& operator<<(ostream& out, MyLong& num)
 {
 	string result, buffer;
 	bool flag = true;
 	
-	for (size_t i = num.digits.size(); i != 0;)
+	for (int i = num.digits.size() - 1; i >= 0; i--)
 	{
-		string s = to_string(num.digits[--i]);
+		string s = to_string(num.digits[i]);
 
 		buffer += s.insert(0, "0000", 4 - s.length());
 	}
 
-	for (size_t i = 0; i < buffer.length(); i++)
+	for (int i = 0; i < buffer.length(); i++)
 	{
 		if (buffer[i] == '0' && flag) continue;
 

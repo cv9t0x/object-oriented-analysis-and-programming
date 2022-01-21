@@ -28,7 +28,9 @@ public:
 	~MyLong();
 
 	void operator=(const MyLong& other);
+
 	bool operator==(const MyLong& other);
+	bool operator<(const MyLong& other);
 
 	MyLong& operator+=(const MyLong& other);
 	MyLong operator+(const MyLong& other);
@@ -42,6 +44,11 @@ public:
 
 	MyLong& operator*=(const MyLong& other);
 	MyLong operator*(const MyLong& other);
+
+	MyLong& operator/=(int num);
+	MyLong operator/(int num);
+
+	MyLong sqrt();
 
 	friend ostream& operator<<(ostream& out, MyLong& num);
 };

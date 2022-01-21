@@ -7,8 +7,8 @@ int main()
 {
 	MyLong num1(9223372036854775807);
 	MyLong num2(num1);
-	MyLong num3 = num1 * num2;
-
+	MyLong num3 = num2 * num1;
+	
 	cout << num3;
 
 	return 0;

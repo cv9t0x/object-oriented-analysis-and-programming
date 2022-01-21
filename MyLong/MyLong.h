@@ -30,6 +30,7 @@ public:
 	void operator=(const MyLong& other);
 
 	bool operator==(const MyLong& other);
+	bool operator!=(const MyLong& other);
 	bool operator<(const MyLong& other);
 
 	MyLong& operator+=(const MyLong& other);
@@ -45,10 +46,16 @@ public:
 	MyLong& operator*=(const MyLong& other);
 	MyLong operator*(const MyLong& other);
 
-	MyLong& operator/=(int num);
-	MyLong operator/(int num);
+	MyLong& operator/=(const int num);
+	MyLong operator/(const int num);
+
+	MyLong& operator%=(const int num);
+	MyLong operator%(const int num);
 
 	friend ostream& operator<<(ostream& out, MyLong& num);
+
+	static MyLong pow(MyLong& num, int degree);
+	static MyLong pow(MyLong& num, MyLong degree);
 };
 
 #endif // !MYLONG_H

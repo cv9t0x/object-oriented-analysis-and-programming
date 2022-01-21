@@ -1,4 +1,5 @@
 #include "MyLong.h"
+#include <iostream>
 
 MyLong::MyLong()
 {
@@ -55,6 +56,11 @@ bool MyLong::operator==(const MyLong& other)
 	}
 
 	return true;
+}
+
+bool MyLong::operator!=(const MyLong& other)
+{
+	return !(*this == other);
 }
 
 bool MyLong::operator<(const MyLong& other)
@@ -188,7 +194,7 @@ MyLong MyLong::operator*(const MyLong& other)
 	return result;
 }
 
-MyLong& MyLong::operator/=(int num)
+MyLong& MyLong::operator/=(const int num)
 {
 	if (num == 0)
 		throw new MyLongException();
@@ -204,11 +210,57 @@ MyLong& MyLong::operator/=(int num)
 	return *this;
 }
 
-MyLong MyLong::operator/(int num)
+MyLong MyLong::operator/(const int num)
 {
 	MyLong result(*this);
 	result /= num;
 	return result;
+}
+
+MyLong& MyLong::operator%=(const int num)
+{
+	*this -= (*this / num) * num;
+
+	return *this;
+}
+
+MyLong MyLong::operator%(const int num)
+{
+	MyLong result(*this);
+	result %= num;
+	return result;
+}
+
+MyLong MyLong::pow(MyLong& num, int degree)
+{
+	if (degree < 0)
+		throw new MyLongException();
+
+	if (degree == 0)
+		return 1;
+	else if (degree % 2 == 0)
+	{
+		MyLong buf = pow(num, degree / 2);
+		return buf * buf;
+	}
+	else
+		return num * pow(num, degree - 1);
+}
+
+MyLong MyLong::pow(MyLong& num, MyLong degree)
+{
+	if (degree < 0)
+		throw new MyLongException();
+
+	if (degree == 0)
+		return 1;
+	else if (degree % 2 == 0)
+	{
+		MyLong buf = pow(num, degree / 2);
+		return buf * buf;
+	}
+	else
+		return num * pow(num, degree - 1);
 }
 
 ostream& operator<<(ostream& out, MyLong& num)
